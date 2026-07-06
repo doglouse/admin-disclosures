@@ -1,1 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Faculty Disclosures — MPN Congress 2026</title>
 
+<!-- Only the font weights actually used: Roboto 400/500/700 (body, buttons),
+     Inter 600 (modal headers), Roboto Flex 700 (chips). -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@600&family=Roboto:wght@400;500;700&family=Roboto+Flex:wght@700&display=swap">
+
+<style>
+  /* ---- Design tokens (only those referenced below) ---- */
+  :root {
+    --pa-primary: rgb(25,118,210);
+    --pa-primary-700: rgb(17,71,161);
+    --pa-primary-04a: rgba(25,118,210,0.04);
+    --pa-primary-12a: rgba(25,118,210,0.12);
+    --pa-ink: rgb(33,33,33);
+    --pa-ink-2: rgb(66,66,66);
+    --pa-ink-7: rgb(158,158,158);
+    --pa-line-2: rgb(224,224,224);
+    --pa-radius-sm: 4px;
+    --pa-radius-pill: 16px;
+    --pa-font-sans: "Roboto", system-ui, sans-serif;
+    --pa-font-display: "Roboto Flex", "Roboto", system-ui, sans-serif;
+    --pa-elev-1: 0 1px 3px 0 rgba(0,0,0,0.10), 0 1px 2px -1px rgba(0,0,0,0.10);
+    --pa-elev-2: 0 1px 5px 0 rgba(0,0,0,0.12), 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.20);
+    --pa-elev-modal: 0 9px 46px 8px rgba(0,0,0,0.12), 0 24px 38px 3px rgba(0,0,0,0.14), 0 11px 15px -7px rgba(0,0,0,0.20);
+  }
+
+  html, body { height: 100%; }
+  body { margin: 0; background: #fff; font-family: var(--pa-font-sans); }
+  a { color: #1976D2; } a:hover { color: #1147A1; }
+  * { box-sizing: border-box; }
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb { background: rgba(0,0,0,.18); border-radius: 6px; }
+
+  /* ---- Icon helper ---- */
+  .mi { display: inline-block; vertical-align: middle; flex-shrink: 0; }
+
+  /* ---- Buttons (from PrimeAdmin 3 _components.css) ---- */
+  .pa-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    height: 32px; padding: 0 16px; border-radius: var(--pa-radius-pill); border: none;
+    font-family: var(--pa-font-sans); font-weight: 500; font-size: 12px; line-height: 100%;
+    letter-spacing: 0; text-transform: uppercase; cursor: pointer; user-select: none;
+    position: relative; isolation: isolate;
+    transition: background 150ms cubic-bezier(.4,0,.2,1), box-shadow 150ms cubic-bezier(.4,0,.2,1);
+  }
+  .pa-btn::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: transparent; pointer-events: none; z-index: 1; }
+  .pa-btn > * { position: relative; z-index: 2; }
+  .pa-btn--sm { height: 24px; padding: 0 12px; font-size: 10.8px; }
+  .pa-btn--primary { background: var(--pa-primary); color: #fff; box-shadow: var(--pa-elev-2); }
+  .pa-btn--primary:hover::after  { background: rgba(255,255,255,0.08); }
+  .pa-btn--primary:active::after { background: rgba(0,0,0,0.24); }
+  .pa-btn--primary[disabled]     { opacity: 0.3; pointer-events: none; box-shadow: none; }
+  .pa-btn--secondary-grey { background: #fff; color: var(--pa-ink-2); border: 1px solid var(--pa-ink-7); }
+  .pa-btn--secondary-grey:hover::after  { background: rgba(33,33,33,0.04); }
+  .pa-btn--secondary-grey:active::after { background: rgba(33,33,33,0.24); }
+  .pa-btn--tertiary-grey { background: transparent; color: var(--pa-ink-2); }
+  .pa-btn--tertiary-grey:hover::after  { background: rgba(33,33,33,0.04); }
+  .pa-btn--tertiary-grey:active::after { background: rgba(33,33,33,0.24); }
+
+  /* ---- Chips ---- */
+  .pa-chip {
+    display: inline-flex; align-items: center; justify-content: center;
+    height: 28px; padding: 0 12px; border-radius: 14px;
+    font-family: var(--pa-font-display); font-weight: 700; font-size: 10.8px; line-height: 16.2px;
+    letter-spacing: 0; text-transform: uppercase;
+    background: var(--pa-line-2); color: var(--pa-ink); user-select: none;
+  }
+  .pa-chip--selected { background: var(--pa-primary-12a); color: var(--pa-primary); }
+
+  /* ---- Icon buttons (edit / delete on cards) ---- */
+  .icon-btn { width: 26px; height: 26px; display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 50%; cursor: pointer; color: #666; transition: background 120ms, color 120ms; }
+  .icon-btn:hover { background: rgba(0,0,0,.05); }
+  .icon-btn--danger:hover { background: rgba(211,47,47,.08); color: #d32f2f; }
+
+  /* ---- Hover states that were inline style-hover in source ---- */
+  .type-row:hover { background: rgba(25,118,210,.05); }
+  .suggest-item:hover { background: #eef5fc; }
+</style>
+</head>
+<body>
+
+<!-- ===== Inline SVG sprite: only the 16 icons this screen uses ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-view-dashboard-outline" viewBox="0 0 24 24"><path d="M19,5V7H15V5H19M9,5V11H5V5H9M19,13V19H15V13H19M9,17V19H5V17H9M21,3H13V9H21V3M11,3H3V13H11V3M21,11H13V21H21V11M11,15H3V21H11V15Z"/></symbol>
+  <symbol id="i-folder-outline" viewBox="0 0 24 24"><path d="M20,18H4V8H20M20,6H12L10,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V8C22,6.89 21.1,6 20,6Z"/></symbol>
+  <symbol id="i-chart-box-outline" viewBox="0 0 24 24"><path d="M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3M5,5V19H19V5H5M7,12H9V17H7V12M11,7H13V17H11V7M15,10H17V17H15V10Z"/></symbol>
+  <symbol id="i-bullhorn-outline" viewBox="0 0 24 24"><path d="M12,8H4A2,2 0 0,0 2,10V14A2,2 0 0,0 4,16H5V20A1,1 0 0,0 6,21H8A1,1 0 0,0 9,20V16H12L17,20V4L12,8M15,15.6L13,14H4V10H13L15,8.4V15.6M21.5,12C21.5,13.71 20.54,15.26 19,16V8C20.53,8.75 21.5,10.3 21.5,12Z"/></symbol>
+  <symbol id="i-bell-outline" viewBox="0 0 24 24"><path d="M14,20A2,2 0 0,1 12,22A2,2 0 0,1 10,20H14M12,2A1,1 0 0,1 13,3V3.29C15.89,4.15 18,6.83 18,10V16L21,19V20H3V19L6,16V10C6,6.83 8.11,4.15 11,3.29V3A1,1 0 0,1 12,2M16,10C16,7.24 14.21,5 12,5C9.79,5 8,7.24 8,10V17H16V10Z"/></symbol>
+  <symbol id="i-magnify" viewBox="0 0 24 24"><path d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"/></symbol>
+  <symbol id="i-cog-outline" viewBox="0 0 24 24"><path d="M12,8A4,4 0 0,1 16,12A4,4 0 0,1 12,16A4,4 0 0,1 8,12A4,4 0 0,1 12,8M12,10A2,2 0 0,0 10,12A2,2 0 0,0 12,14A2,2 0 0,0 14,12A2,2 0 0,0 12,10M10,22C9.75,22 9.54,21.82 9.5,21.58L9.13,18.93C8.5,18.68 7.96,18.34 7.44,17.94L4.95,18.95C4.73,19.03 4.46,18.95 4.34,18.73L2.34,15.27C2.21,15.05 2.27,14.78 2.46,14.63L4.57,12.97L4.5,12L4.57,11L2.46,9.37C2.27,9.22 2.21,8.95 2.34,8.73L4.34,5.27C4.46,5.05 4.73,4.96 4.95,5.05L7.44,6.05C7.96,5.66 8.5,5.32 9.13,5.07L9.5,2.42C9.54,2.18 9.75,2 10,2H14C14.25,2 14.46,2.18 14.5,2.42L14.87,5.07C15.5,5.32 16.04,5.66 16.56,6.05L19.05,5.05C19.27,4.96 19.54,5.05 19.66,5.27L21.66,8.73C21.79,8.95 21.73,9.22 21.54,9.37L19.43,11L19.5,12L19.43,13L21.54,14.63C21.73,14.78 21.79,15.05 21.66,15.27L19.66,18.73C19.54,18.95 19.27,19.04 19.05,18.95L16.56,17.95C16.04,18.34 15.5,18.68 14.87,18.93L14.5,21.58C14.46,21.82 14.25,22 14,22H10M11.25,4L10.88,6.61C9.68,6.86 8.62,7.5 7.85,8.39L5.44,7.35L4.69,8.65L6.8,10.2C6.4,11.37 6.4,12.64 6.8,13.8L4.68,15.36L5.43,16.66L7.86,15.62C8.63,16.5 9.68,17.14 10.87,17.38L11.24,20H12.76L13.13,17.39C14.32,17.14 15.37,16.5 16.14,15.62L18.57,16.66L19.32,15.36L17.2,13.81C17.6,12.64 17.6,11.37 17.2,10.2L19.31,8.65L18.56,7.35L16.15,8.39C15.38,7.5 14.32,6.86 13.12,6.62L12.75,4H11.25Z"/></symbol>
+  <symbol id="i-chevron-up" viewBox="0 0 24 24"><path d="M7.41,15.41L12,10.83L16.59,15.41L18,14L12,8L6,14L7.41,15.41Z"/></symbol>
+  <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/></symbol>
+  <symbol id="i-checkbox-marked" viewBox="0 0 24 24"><path d="M10,17L5,12L6.41,10.59L10,14.17L17.59,6.58L19,8M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3Z"/></symbol>
+  <symbol id="i-checkbox-blank-outline" viewBox="0 0 24 24"><path d="M19,3H5C3.89,3 3,3.89 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5C21,3.89 20.1,3 19,3M19,5V19H5V5H19Z"/></symbol>
+  <symbol id="i-pencil-outline" viewBox="0 0 24 24"><path d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z"/></symbol>
+  <symbol id="i-trash-can-outline" viewBox="0 0 24 24"><path d="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z"/></symbol>
+  <symbol id="i-check-decagram" viewBox="0 0 24 24"><path d="M23,12L20.56,9.22L20.9,5.54L17.29,4.72L15.4,1.54L12,3L8.6,1.54L6.71,4.72L3.1,5.53L3.44,9.21L1,12L3.44,14.78L3.1,18.46L6.71,19.28L8.6,22.46L12,21L15.4,22.46L17.29,19.28L20.9,18.47L20.56,14.79L23,12M10,17L6,13L7.41,11.59L10,14.17L16.59,7.58L18,9L10,17Z"/></symbol>
+</defs></svg>
+
+<!-- ===== App shell (fills viewport) ===== -->
+<div style="position:relative;width:100vw;height:100vh;overflow:hidden;background:#fff">
+  <div style="position:absolute;inset:0;display:flex">
+    <aside style="width:230px;background:#202020;color:#fff;display:flex;flex-direction:column;flex-shrink:0">
+      <div style="padding:18px 16px;display:flex;align-items:center;gap:1px"><span style="font:700 19px/1 'Roboto';letter-spacing:1px">PRIME</span><span style="font:700 19px/1 'Roboto';letter-spacing:1px;color:#00ADEE">ADMIN</span></div>
+      <div style="padding:6px 0;font-size:14px">
+        <div style="display:flex;align-items:center;gap:14px;padding:11px 18px;color:rgba(255,255,255,.82)"><svg class="mi" style="width:20px;height:20px;fill:currentColor"><use href="#i-view-dashboard-outline"></use></svg>Dashboard</div>
+        <div style="display:flex;align-items:center;gap:14px;padding:11px 18px;background:#3e3e3e"><svg class="mi" style="width:20px;height:20px;fill:currentColor"><use href="#i-folder-outline"></use></svg>Program Management<svg class="mi" style="width:20px;height:20px;fill:currentColor;margin-left:auto;opacity:.6"><use href="#i-chevron-up"></use></svg></div>
+        <div style="padding:2px 0 6px;font-size:13px"><div style="padding:8px 18px 8px 54px;color:rgba(255,255,255,.72)">Programs</div><div style="padding:8px 18px 8px 54px;background:#3e3e3e">Faculty</div><div style="padding:8px 18px 8px 54px;color:rgba(255,255,255,.72)">Activities</div></div>
+        <div style="display:flex;align-items:center;gap:14px;padding:11px 18px;color:rgba(255,255,255,.82)"><svg class="mi" style="width:20px;height:20px;fill:currentColor"><use href="#i-chart-box-outline"></use></svg>Reporting</div>
+        <div style="display:flex;align-items:center;gap:14px;padding:11px 18px;color:rgba(255,255,255,.82)"><svg class="mi" style="width:20px;height:20px;fill:currentColor"><use href="#i-bullhorn-outline"></use></svg>Marketing</div>
+        <div style="display:flex;align-items:center;gap:14px;padding:11px 18px;color:rgba(255,255,255,.82)"><svg class="mi" style="width:20px;height:20px;fill:currentColor"><use href="#i-bell-outline"></use></svg>Notifications</div>
+      </div>
+    </aside>
+    <div style="flex:1;display:flex;flex-direction:column;min-width:0;background:#fff">
+      <div style="height:56px;border-bottom:1px solid rgba(0,0,0,.12);display:flex;align-items:center;padding:0 24px;gap:16px;flex-shrink:0">
+        <div style="display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 12px;border:1px solid rgba(0,0,0,.12);border-radius:4px;width:280px;color:#89939e"><svg class="mi" style="width:18px;height:18px;fill:currentColor"><use href="#i-magnify"></use></svg><span style="font-size:13px">Search for [Program]</span></div>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:16px"><svg class="mi" style="width:20px;height:20px;fill:#424242"><use href="#i-bell-outline"></use></svg><svg class="mi" style="width:20px;height:20px;fill:#424242"><use href="#i-cog-outline"></use></svg><span style="width:32px;height:32px;border-radius:50%;background:#4caf50;color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:500">TE</span></div>
+      </div>
+      <div style="display:flex;height:48px;background:#006DC7;color:#fff;flex-shrink:0">
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;font-size:13px;letter-spacing:.08em;text-transform:uppercase">Details</div>
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;font-size:13px;letter-spacing:.08em;text-transform:uppercase;background:#1147A1">Faculty</div>
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;font-size:13px;letter-spacing:.08em;text-transform:uppercase">Activities</div>
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;font-size:13px;letter-spacing:.08em;text-transform:uppercase">Outcomes</div>
+        <div style="flex:1;display:flex;align-items:center;justify-content:center;font-size:13px;letter-spacing:.08em;text-transform:uppercase">Documents</div>
+      </div>
+      <div style="padding:20px 24px;flex-shrink:0"><div style="font-size:11px;letter-spacing:.05em;color:#666;text-transform:uppercase">Programs / #133261</div><div style="font-size:26px;letter-spacing:1.3px;color:#1976D2;text-transform:uppercase;margin-top:2px">MPN Congress 2026</div></div>
+      <div style="padding:0 24px;color:#9e9e9e;font-size:13px">Faculty roster and disclosure status…</div>
+    </div>
+  </div>
+
+  <!-- ===== Modal ===== -->
+  <div style="position:absolute;inset:0;background:rgba(0,0,0,.5)"></div>
+  <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:28px">
+    <div style="width:min(1140px,94vw);height:min(900px,92vh);background:#fff;border-radius:8px;box-shadow:var(--pa-elev-modal);display:flex;flex-direction:column;overflow:hidden">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 26px;border-bottom:1px solid rgba(0,0,0,.12);flex-shrink:0">
+        <div><div style="font-family:'Inter',sans-serif;font-size:19px;font-weight:600;color:#212121">Faculty Disclosures</div><div id="sum-header" style="font-size:12px;color:#717171;margin-top:2px"></div></div>
+        <svg class="mi" style="width:22px;height:22px;fill:#424242;cursor:pointer"><use href="#i-close"></use></svg>
+      </div>
+      <div id="acc-list" style="flex:1;overflow:auto;padding:18px 26px"></div>
+      <div style="display:flex;align-items:center;padding:14px 26px;border-top:1px solid rgba(0,0,0,.12);gap:12px;flex-shrink:0">
+        <div id="sum-footer" style="font-size:12px;color:#717171"></div>
+        <div style="margin-left:auto;display:flex;gap:10px"><button class="pa-btn pa-btn--secondary-grey">Close Window</button><button class="pa-btn pa-btn--primary">Update Disclosures</button></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // ---------- Data ----------
+  var TYPES = [
+    { key: 'advisory',   label: 'Advisory Board or Panel',                              short: 'Advisory Board' },
+    { key: 'consultant', label: 'Consultant',                                           short: 'Consultant' },
+    { key: 'grants',     label: 'Grants / Research Support',                            short: 'Grants / Research' },
+    { key: 'contractor', label: 'Independent Contractor',                               short: 'Independent Contractor' },
+    { key: 'owner',      label: 'Ownership Interest',                                   short: 'Ownership Interest' },
+    { key: 'salary',     label: 'Salary or Employment',                                 short: 'Salary / Employment' },
+    { key: 'speakers',   label: 'Speakers Bureau or other Promotional Education',       short: 'Speakers Bureau' },
+    { key: 'stock',      label: 'Stock / Shareholder (self-managed)',                   short: 'Stock / Shareholder' },
+    { key: 'other',      label: 'Other Financial or Material Support (royalties, patents, etc)', short: 'Other Support' }
+  ];
+  var COMPANIES = ['AN2 Therapeutics','AbbVie','Ajax','Amgen','AstraZeneca','Blueprint Medicines','Bristol-Myers Squibb','Celgene','CTI BioPharma','DISC Medicine','Genentech','Geron','Gilead','GlaxoSmithKline','Incyte','Italfarmaco Spa','Johnson & Johnson','Karyopharm','Kartos Therapeutics','Merck','MorphoSys','Novartis','Pfizer','PharmaEssentia','Regeneron','Roche','Sanofi','Sierra Oncology','SOBI','Sumitomo','Takeda','Vertex'];
+
+  var ORD = {}; TYPES.forEach(function (t, i) { ORD[t.key] = i; });
+  function shortLabel(k) { var t = TYPES.filter(function (x) { return x.key === k; })[0]; return t ? t.short : k; }
+
+  function buildFaculty() {
+    var BMS = 'Bristol-Myers Squibb';
+    var seed = [
+      { name:'John O Mascarenhas, MD', role:'Speaker', initials:'JM', color:'#1976D2', updated:'Mar 19, 2026 at 10:35 PM',
+        cats:{ advisory:[BMS,'Geron','Incyte','Italfarmaco Spa','Novartis','SOBI','Sumitomo'],
+               consultant:['Blueprint Medicines',BMS,'DISC Medicine','Geron','GlaxoSmithKline','Incyte','Novartis','Pfizer','PharmaEssentia','Roche','SOBI','Sumitomo'],
+               grants:['Ajax',BMS,'Geron','Incyte','Italfarmaco Spa','Novartis','PharmaEssentia','SOBI'] } },
+      { name:'Aaron Gerds, MD', role:'', initials:'AG', color:'#6A1B9A', updated:'May 13, 2026 at 08:09 AM',
+        cats:{ consultant:['AN2 Therapeutics',BMS,'Geron','GlaxoSmithKline','Incyte','Merck','Novartis','PharmaEssentia','Takeda','Vertex'] } },
+      { name:'Carolyn Oxencis, PharmD, BCOP, FHOPA', role:'', initials:'CO', color:'#00838F', updated:'', cats:{} },
+      { name:'Richa Bhattarai, MD', role:'Planner', initials:'RB', color:'#AD1457', updated:'', cats:{} },
+      { name:'Stephanie Joyce, PA, MSPAS, MS, RD', role:'Peer Reviewer', initials:'SJ', color:'#2E7D32', updated:'', cats:{} },
+      { name:'Kristi Kay Orbaugh, RN, MSN, RNP, AOCN', role:'Planner', initials:'KO', color:'#5D4037', updated:'', cats:{} }
+    ];
+    return seed.map(function (f, i) {
+      var map = {};
+      Object.keys(f.cats).forEach(function (k) {
+        f.cats[k].forEach(function (c) {
+          if (!map[c]) map[c] = { company: c, types: [], otherText: '' };
+          if (map[c].types.indexOf(k) === -1) map[c].types.push(k);
+        });
+      });
+      var disclosures = Object.keys(map).map(function (c) { return map[c]; })
+        .sort(function (a, b) { return a.company.localeCompare(b.company); })
+        .map(function (d, j) { return { id: 'f' + i + 'd' + j, company: d.company, types: d.types, otherText: d.otherText }; });
+      return { id: 'f' + i, name: f.name, role: f.role, initials: f.initials, color: f.color, updated: f.updated, nd: false, disclosures: disclosures };
+    });
+  }
+
+  // ---------- State ----------
+  var state = { faculty: buildFaculty(), open: null, editor: null, confirmDel: null, nid: 1 };
+
+  // ---------- Helpers ----------
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+  function ic(name, size, color, extra) {
+    return '<svg class="mi" style="width:' + size + 'px;height:' + size + 'px;fill:' + (color || 'currentColor') + ';' + (extra || '') + '"><use href="#i-' + name + '"></use></svg>';
+  }
+  function byId(id) { return state.faculty.filter(function (f) { return f.id === id; })[0]; }
+  function nowStamp() {
+    var d = new Date();
+    var mo = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()];
+    var h = d.getHours(); var ap = h >= 12 ? 'PM' : 'AM'; h = (h % 12) || 12;
+    var mm = String(d.getMinutes()).padStart(2, '0');
+    return mo + ' ' + d.getDate() + ', ' + d.getFullYear() + ' at ' + h + ':' + mm + ' ' + ap;
+  }
+  function suggest(q) {
+    var s = (q || '').trim().toLowerCase();
+    if (s.length < 3) return []; // only autocomplete once 3+ chars typed
+    var list = COMPANIES.filter(function (c) { return c.toLowerCase().indexOf(s) !== -1; });
+    if (COMPANIES.some(function (c) { return c.toLowerCase() === s; })) list = [];
+    return list.slice(0, 6);
+  }
+  function editorInvalid() {
+    var ed = state.editor;
+    if (!ed) return true;
+    return !(ed.company.trim() && ed.types.length > 0 && (ed.types.indexOf('other') === -1 || ed.otherText.trim()));
+  }
+
+  // ---------- Actions ----------
+  function toggleNd(id) {
+    var f = byId(id);
+    if (!f) return;
+    if (!f.nd && f.disclosures.length > 0) return; // guard: can't mark ND with relationships present
+    f.nd = !f.nd;
+    f.updated = nowStamp();
+    if (state.editor && state.editor.facultyId === id) state.editor = null;
+    render();
+  }
+  function openEditor(facultyId, discId) {
+    var f = byId(facultyId);
+    if (!f || f.nd) return;
+    var company = '', types = [], otherText = '';
+    if (discId) {
+      var d = f.disclosures.filter(function (x) { return x.id === discId; })[0];
+      if (d) { company = d.company; types = d.types.slice(); otherText = d.otherText; }
+    }
+    state.editor = { facultyId: facultyId, discId: discId || null, company: company, types: types, otherText: otherText, showSuggest: false };
+    state.confirmDel = null;
+    render();
+  }
+  function editorToggle(k) {
+    var t = state.editor.types;
+    var i = t.indexOf(k);
+    if (i === -1) t.push(k); else t.splice(i, 1);
+    render();
+  }
+  function saveEditor() {
+    var ed = state.editor;
+    if (!ed || editorInvalid()) return;
+    var f = byId(ed.facultyId);
+    var clean = {
+      company: ed.company.trim(),
+      types: ed.types.slice(),
+      otherText: ed.types.indexOf('other') !== -1 ? ed.otherText.trim() : ''
+    };
+    if (ed.discId) {
+      f.disclosures = f.disclosures.map(function (d) {
+        return d.id === ed.discId ? { id: d.id, company: clean.company, types: clean.types, otherText: clean.otherText } : d;
+      });
+    } else {
+      f.disclosures.push({ id: 'n' + (state.nid++), company: clean.company, types: clean.types, otherText: clean.otherText });
+    }
+    f.disclosures.sort(function (a, b) { return a.company.localeCompare(b.company); });
+    f.nd = false;
+    f.updated = nowStamp();
+    state.editor = null;
+    render();
+  }
+  function confirmDelete() {
+    var del = state.confirmDel;
+    if (!del) return;
+    var f = byId(del.facultyId);
+    f.disclosures = f.disclosures.filter(function (d) { return d.id !== del.discId; });
+    f.updated = nowStamp();
+    state.confirmDel = null;
+    render();
+  }
+
+  // ---------- Rendering ----------
+  function cardHtml(f, d) {
+    var confirming = state.confirmDel && state.confirmDel.facultyId === f.id && state.confirmDel.discId === d.id;
+    if (confirming) {
+      return '<div style="border:1px solid #f0c4c4;border-radius:8px;padding:14px 16px;background:#fdeded">' +
+        '<div style="font-size:13px;color:#212121;line-height:19px">Remove <strong>' + esc(d.company) + '</strong> and all of its relationships?</div>' +
+        '<div style="display:flex;justify-content:flex-end;gap:8px;margin-top:12px">' +
+          '<button data-action="cancel-del" class="pa-btn pa-btn--tertiary-grey pa-btn--sm">Cancel</button>' +
+          '<button data-action="do-del" class="pa-btn pa-btn--sm" style="background:#d32f2f;color:#fff;box-shadow:var(--pa-elev-2)">Delete</button>' +
+        '</div></div>';
+    }
+    var types = d.types.slice().sort(function (a, b) { return ORD[a] - ORD[b]; }).map(shortLabel);
+    var hasOther = d.types.indexOf('other') !== -1 && d.otherText;
+    return '<div style="border:1px solid rgba(0,0,0,.12);border-radius:8px;padding:13px 15px">' +
+      '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px">' +
+        '<div style="font-size:14px;font-weight:600;color:#212121">' + esc(d.company) + '</div>' +
+        '<div style="display:flex;gap:4px;flex-shrink:0">' +
+          '<span class="icon-btn" data-action="edit-card" data-fid="' + f.id + '" data-did="' + d.id + '">' + ic('pencil-outline', 17, 'currentColor') + '</span>' +
+          '<span class="icon-btn icon-btn--danger" data-action="del-card" data-fid="' + f.id + '" data-did="' + d.id + '">' + ic('trash-can-outline', 17, 'currentColor') + '</span>' +
+        '</div>' +
+      '</div>' +
+      '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px">' +
+        types.map(function (t) { return '<span class="pa-chip pa-chip--selected" style="height:23px;padding:0 9px;font-size:10px">' + esc(t) + '</span>'; }).join('') +
+      '</div>' +
+      (hasOther ? '<div style="margin-top:10px;font-size:11px;color:#666;line-height:15px;background:#f7f7f7;border-radius:4px;padding:7px 9px"><span style="color:#e98f28;font-weight:600">Other: </span>' + esc(d.otherText) + '</div>' : '') +
+    '</div>';
+  }
+
+  function editorHtml() {
+    var ed = state.editor;
+    var title = ed.discId ? 'Edit financial relationship' : 'Add a financial relationship';
+    var saveLabel = ed.discId ? 'Save changes' : 'Add';
+    var otherVisible = ed.types.indexOf('other') !== -1;
+    var typesHtml = TYPES.map(function (t) {
+      var on = ed.types.indexOf(t.key) !== -1;
+      return '<div class="type-row" data-action="editor-type" data-key="' + t.key + '" style="display:flex;align-items:center;gap:10px;padding:7px 6px;cursor:pointer;border-radius:4px">' +
+        ic(on ? 'checkbox-marked' : 'checkbox-blank-outline', 21, on ? '#1976D2' : '#9e9e9e') +
+        '<span style="font-size:13px;color:#212121">' + esc(t.label) + '</span></div>';
+    }).join('');
+    return '<div style="border:1px solid #1976D2;border-radius:8px;padding:18px 20px;background:#f6fafe;margin-bottom:14px">' +
+      '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">' +
+        '<div style="font-family:\'Inter\',sans-serif;font-size:15px;font-weight:600;color:#1147A1">' + title + '</div>' +
+        '<span data-action="close-editor" style="cursor:pointer;color:#666;display:inline-flex">' + ic('close', 20, 'currentColor') + '</span>' +
+      '</div>' +
+      '<div style="position:relative;margin-bottom:18px;max-width:520px">' +
+        '<div style="font-size:13px;letter-spacing:.03em;color:#666;margin-bottom:4px">Company / Organization</div>' +
+        '<input id="ed-company" value="' + esc(ed.company) + '" placeholder="Search for [Company]" autocomplete="off" style="width:100%;border:none;border-bottom:1px solid #9e9e9e;background:transparent;padding:6px 0;font-size:14px;color:#212121;outline:none" />' +
+        '<div id="ed-suggest"></div>' +
+      '</div>' +
+      '<div style="font-size:13px;color:#212121;font-weight:500;margin-bottom:8px">Select all relationships that apply.</div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:2px 24px">' + typesHtml + '</div>' +
+      (otherVisible ? '<div style="margin-top:14px;padding-top:14px;border-top:1px solid #e3edf7"><div style="font-size:13px;color:#666;margin-bottom:5px">Please specify the type of financial relationship you hold with the ineligible company(ies)</div><textarea id="ed-other" style="width:100%;min-height:70px;border:1px solid #9e9e9e;border-radius:4px;padding:8px;font-size:13px;font-family:inherit;color:#212121;outline:none;resize:vertical;background:#fff">' + esc(ed.otherText) + '</textarea></div>' : '') +
+      '<div style="display:flex;justify-content:flex-end;gap:10px;margin-top:16px">' +
+        '<button data-action="close-editor" class="pa-btn pa-btn--secondary-grey pa-btn--sm">Cancel</button>' +
+        '<button id="ed-save" data-action="save-editor" class="pa-btn pa-btn--primary pa-btn--sm"' + (editorInvalid() ? ' disabled' : '') + '>' + saveLabel + '</button>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function rowBodyHtml(f) {
+    var ndDisabled = f.disclosures.length > 0;
+    var editorHere = state.editor && state.editor.facultyId === f.id;
+    var addOpen = editorHere && !state.editor.discId;
+    var addDisabled = f.nd || addOpen;
+    var ndIcon = f.nd ? 'checkbox-marked' : 'checkbox-blank-outline';
+    var ndIconColor = f.nd ? '#1976D2' : (ndDisabled ? '#cfcfcf' : '#9e9e9e');
+    var ndColor = ndDisabled ? '#bdbdbd' : '#424242';
+    var ndCursor = ndDisabled ? 'not-allowed' : 'pointer';
+    var ndTitle = ndDisabled ? 'Remove all financial relationships before marking nothing to disclose' : '';
+
+    var html = '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">' +
+      '<div ' + (ndDisabled ? '' : 'data-action="nd" data-fid="' + f.id + '" ') + 'title="' + ndTitle + '" style="display:inline-flex;align-items:center;gap:8px;font-size:13px;cursor:' + ndCursor + ';color:' + ndColor + '">' +
+        ic(ndIcon, 20, ndIconColor) + 'Nothing to disclose</div>' +
+      '<button ' + (addDisabled ? 'disabled' : 'data-action="add" data-fid="' + f.id + '"') + ' class="pa-btn pa-btn--primary pa-btn--sm">' + ic('plus', 15, '#fff') + 'Add a financial relationship</button>' +
+    '</div>';
+
+    if (editorHere) html += editorHtml();
+
+    var editingId = (editorHere && state.editor.discId) ? state.editor.discId : null;
+    var cards = f.disclosures.filter(function (d) { return d.id !== editingId; });
+
+    if (!f.nd && cards.length) {
+      html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">' +
+        cards.map(function (d) { return cardHtml(f, d); }).join('') + '</div>';
+    }
+    if (!f.nd && f.disclosures.length === 0 && !editorHere) {
+      html += '<div style="font-size:13px;color:#9e9e9e;padding:8px 0">No financial relationships added yet. Add one, or mark nothing to disclose.</div>';
+    }
+    if (f.nd) {
+      html += '<div style="display:flex;align-items:center;gap:10px;padding:14px;background:#eef5fc;border-radius:8px;color:#1147A1;font-size:13px">' +
+        ic('check-decagram', 20, '#1147A1') + 'This faculty member has indicated they have nothing to disclose.</div>';
+    }
+    return html;
+  }
+
+  function rowHtml(f) {
+    var status = f.nd ? 'nd' : (f.disclosures.length ? 'done' : 'empty');
+    var n = f.disclosures.length;
+    var pill = status === 'nd' ? { t: 'Nothing to disclose', bg: '#eef5fc', c: '#1976D2' }
+      : status === 'done' ? { t: n + (n === 1 ? ' company' : ' companies'), bg: '#e8f5e9', c: '#2e7d32' }
+      : { t: 'Not started', bg: '#fff4e5', c: '#e98f28' };
+    var expanded = f.id === state.open;
+    var updated = f.updated ? ('Updated ' + f.updated) : 'Not yet updated';
+    var headBg = expanded ? '#eef5fc' : '#fff';
+
+    return '<div style="border:1px solid #e6e6e6;border-radius:8px;margin-bottom:10px;overflow:hidden;box-shadow:var(--pa-elev-1)">' +
+      '<div data-action="toggle-row" data-fid="' + f.id + '" style="display:flex;align-items:center;gap:12px;padding:13px 18px;cursor:pointer;background:' + headBg + '">' +
+        '<span style="width:42px;height:42px;border-radius:50%;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:500;background:' + f.color + '">' + esc(f.initials) + '</span>' +
+        '<div style="min-width:0;flex:1"><div style="font-size:14px;font-weight:500;color:#1147A1">' + esc(f.name) + '</div>' +
+          (f.role ? '<span style="display:inline-flex;align-items:center;height:17px;padding:0 7px;border-radius:9px;background:#e0e0e0;color:#424242;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;margin-top:3px">' + esc(f.role) + '</span>' : '') +
+        '</div>' +
+        '<div style="display:inline-flex;align-items:center;height:22px;padding:0 10px;border-radius:11px;font-size:11px;font-weight:600;background:' + pill.bg + ';color:' + pill.c + '">' + pill.t + '</div>' +
+        '<div style="font-size:11px;color:#9e9e9e;width:160px;text-align:right">' + updated + '</div>' +
+        ic(expanded ? 'chevron-up' : 'chevron-down', 22, '#666') +
+      '</div>' +
+      (expanded ? '<div style="padding:16px 18px 18px;border-top:1px solid #eee">' + rowBodyHtml(f) + '</div>' : '') +
+    '</div>';
+  }
+
+  function refreshSuggest() {
+    var wrap = document.getElementById('ed-suggest');
+    if (!wrap || !state.editor) return;
+    var list = state.editor.showSuggest ? suggest(state.editor.company) : [];
+    if (!list.length) { wrap.innerHTML = ''; return; }
+    wrap.innerHTML = '<div style="position:absolute;left:0;right:0;top:62px;background:#fff;border:1px solid rgba(0,0,0,.12);border-radius:4px;box-shadow:0 4px 14px rgba(0,0,0,.16);z-index:20;max-height:200px;overflow:auto">' +
+      list.map(function (nm) { return '<div class="suggest-item" data-name="' + esc(nm) + '" style="padding:9px 14px;font-size:13px;cursor:pointer;color:#212121">' + esc(nm) + '</div>'; }).join('') +
+    '</div>';
+    Array.prototype.forEach.call(wrap.querySelectorAll('.suggest-item'), function (el) {
+      el.addEventListener('mousedown', function (e) {
+        e.preventDefault();
+        state.editor.company = el.getAttribute('data-name');
+        state.editor.showSuggest = false;
+        var inp = document.getElementById('ed-company');
+        if (inp) inp.value = state.editor.company;
+        refreshSuggest();
+        refreshSave();
+      });
+    });
+  }
+  function refreshSave() {
+    var b = document.getElementById('ed-save');
+    if (b) b.disabled = editorInvalid();
+  }
+  function wireEditor() {
+    var inp = document.getElementById('ed-company');
+    if (inp) {
+      inp.addEventListener('input', function (e) { state.editor.company = e.target.value; state.editor.showSuggest = true; refreshSuggest(); refreshSave(); });
+      inp.addEventListener('focus', function () { state.editor.showSuggest = true; refreshSuggest(); });
+      inp.addEventListener('blur', function () { setTimeout(function () { if (state.editor) { state.editor.showSuggest = false; refreshSuggest(); } }, 160); });
+    }
+    var ot = document.getElementById('ed-other');
+    if (ot) ot.addEventListener('input', function (e) { state.editor.otherText = e.target.value; refreshSave(); });
+  }
+
+  function render() {
+    document.getElementById('acc-list').innerHTML = state.faculty.map(rowHtml).join('');
+    var entered = state.faculty.filter(function (f) { return f.nd || f.disclosures.length; }).length;
+    var summary = entered + ' of ' + state.faculty.length + ' faculty complete';
+    document.getElementById('sum-header').textContent = 'MPN Congress 2026 · ' + summary;
+    document.getElementById('sum-footer').textContent = summary;
+    if (state.editor) wireEditor();
+  }
+
+  // ---------- Event delegation ----------
+  document.getElementById('acc-list').addEventListener('click', function (e) {
+    var el = e.target.closest('[data-action]');
+    if (!el) return;
+    var a = el.getAttribute('data-action');
+    var fid = el.getAttribute('data-fid');
+    var did = el.getAttribute('data-did');
+    var key = el.getAttribute('data-key');
+    switch (a) {
+      case 'toggle-row': state.open = (state.open === fid ? null : fid); render(); break;
+      case 'nd': toggleNd(fid); break;
+      case 'add': openEditor(fid, null); break;
+      case 'close-editor': state.editor = null; render(); break;
+      case 'editor-type': editorToggle(key); break;
+      case 'save-editor': saveEditor(); break;
+      case 'edit-card': openEditor(fid, did); break;
+      case 'del-card': state.confirmDel = { facultyId: fid, discId: did }; render(); break;
+      case 'cancel-del': state.confirmDel = null; render(); break;
+      case 'do-del': confirmDelete(); break;
+    }
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
