@@ -834,7 +834,7 @@
       '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 32px;border-top:1px solid var(--pa-divider);flex:none">' +
         '<span style="font-family:var(--pa-font-display);font-size:12.5px;color:var(--pa-ink-4)">Copies the full disclosure statement shown, as plain text.</span>' +
         '<div style="display:flex;gap:10px">' +
-          '<button class="pa-btn pa-btn--secondary-grey" data-act="close">Close Window</button>' +
+          '<button class="pa-btn pa-btn--secondary-grey" data-act="close">Close</button>' +
           '<button class="pa-btn pa-btn--primary" data-act="copy"><i class="mdi ' + (state.copied ? 'mdi-check' : 'mdi-content-copy') + '" style="margin-right:6px;font-size:16px"></i><span>' + (state.copied ? 'Copied' : 'Copy to Clipboard') + '</span></button>' +
         '</div></div>';
   }
@@ -972,7 +972,7 @@
       '<div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 32px;border-top:1px solid var(--pa-divider);flex:none">' +
         '<span style="font-family:var(--pa-font-display);font-size:12.5px;color:var(--pa-ink-4)">' + summaryText() + '</span>' +
         '<div style="display:flex;gap:10px">' +
-          '<button class="pa-btn pa-btn--secondary-grey" data-act="close">Close Window</button>' +
+          '<button class="pa-btn pa-btn--secondary-grey" data-act="close">Close</button>' +
           '<button class="pa-btn pa-btn--primary" data-act="save"' + (state.dirty ? '' : ' disabled') + '>Update Disclosures</button>' +
         '</div></div>';
   }
